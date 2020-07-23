@@ -70,44 +70,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
+	<h1>PHP7 + Codeigniter3</h1>
 
 	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+        <lebel for="getDental">gis server 치과 검색 api</lebel>
+		<button id="getDental" name="getDental" onclick="getDental()">
+            호출
+        </button>
+        <div id="getDentalResult" style="height: 100px; overflow-y:scroll;">
 
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
+        </div>
 
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/Welcome.php</code>
+        <lebel for="postSample">gis server data insert api</lebel>
+        <button id="postSample" name="postSample" onclick="postSampledata()">
+            호출
+        </button>
+        <div id="postInsertResult">
+        </div>
 
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
 	</div>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds.<?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>
 <script>
-  /*  var xmlHttp = new XMLHttpRequest()
-    xmlHttp.open("GET", "http://localhost:8000/test2", true) //ascync
-    xmlHttp.setRequestHeader("Content-Type", "text/json;charset=UTF-8;");
-    xmlHttp.onreadystatechange = function() {
-        if (this.status == 200 && this.readyState == this.DONE) {
-            console.log(xmlHttp.responseText);
-            alert('success')
+    function getDental(){
+        document.getElementById('getDentalResult').innerHTML = "";
+        var url = "http://localhost:8000/test2";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, true) //ascync
+        xmlHttp.setRequestHeader("Content-Type", "text/json;charset=UTF-8;");
+        xmlHttp.onreadystatechange = function() {
+            if (this.status == 200 && this.readyState == this.DONE) {
+                var response = JSON.parse(xmlHttp.responseText);
+                var html = "<ul>";
+                for(let i = 0; i < response.length; i++){
+                    html += "<li>" + response[i].name + "</li>";
+                }
+                html += "</ul>";
+                document.getElementById('getDentalResult').innerHTML = html;
+            } else {
+                document.getElementById('getDentalResult').innerHTML = "...";
+            }
         }
+        xmlHttp.send();
     }
-    xmlHttp.send()*/
 
-    var xmlHttp = new XMLHttpRequest()
-    xmlHttp.open("POST", "http://localhost:8000/insertTest", true) //ascync
+    function postSampledata(){
+        document.getElementById('postInsertResult').innerHTML = "";
+        var url = "http://localhost:8000/insertTest";
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", url, true) //ascync
+        xmlHttp.setRequestHeader("Content-Type", "text/json;charset=UTF-8;");
+        xmlHttp.onreadystatechange = function() {
+            if (this.status == 200 && this.readyState == this.DONE) {
+                document.getElementById('postInsertResult').innerHTML = "데이터 insert 완료";
+            } else {
+                document.getElementById('postInsertResult').innerHTML = "...";
+            }
+        }
+        xmlHttp.send();
+    }
+
+
+
+/*    var url = "http://localhost:8000/insertTest";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", url, true) //ascync
     xmlHttp.setRequestHeader("Content-Type", "text/json;charset=UTF-8;");
     xmlHttp.onreadystatechange = function() {
         if (this.status == 200 && this.readyState == this.DONE) {
             console.log(xmlHttp.responseText);
-            alert('success');
+            alert('"'+ url + '" post success');
         }
     }
-    xmlHttp.send();
+    xmlHttp.send();*/
 </script>
 </body>
 </html>
